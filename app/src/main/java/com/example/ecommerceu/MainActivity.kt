@@ -12,6 +12,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.ecommerceu.screens.LoginScreen
 import com.example.ecommerceu.screens.ProductListScreen
 import com.example.ecommerceu.screens.RegisterScreen
+import com.example.ecommerceu.ui.theme.EcommerceUTheme
 import com.example.ecommerceu.viewmodels.CartViewModel
 
 class MainActivity : ComponentActivity() {
@@ -26,29 +27,32 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    val navController = rememberNavController()
-    val cartViewModel: CartViewModel = viewModel() // Crear instancia del ViewModel
+    EcommerceUTheme {
+        val navController = rememberNavController()
+        val cartViewModel: CartViewModel = viewModel()
 
-    NavHost(navController = navController, startDestination = "login") {
-        composable("login") {
-            LoginScreen(
-                onLoginSuccess = {
-                    navController.navigate("productList")
-                },
-                onNavigateToRegister = {
-                    navController.navigate("register")
-                }
-            )
-        }
-        composable("productList") {
-            ProductListScreen(cartViewModel) // Pasar el ViewModel
-        }
-        composable("register") {
-            RegisterScreen(onRegisterSuccess = {
-                navController.popBackStack()
-                navController.navigate("login")
-            })
+        NavHost(navController = navController, startDestination = "login") {
+            composable("login") {
+                LoginScreen(
+                    onLoginSuccess = {
+                        navController.navigate("productList")
+                    },
+                    onNavigateToRegister = {
+                        navController.navigate("register")
+                    }
+                )
+            }
+            composable("productList") {
+                ProductListScreen(cartViewModel) // Pasar el ViewModel
+            }
+            composable("register") {
+                RegisterScreen(onRegisterSuccess = {
+                    navController.popBackStack()
+                    navController.navigate("login")
+                })
+            }
         }
     }
+
 }
 

@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -32,13 +33,18 @@ fun ProductListScreen(cartViewModel: CartViewModel = viewModel()) {
     Scaffold(
         topBar = {
             TopAppBar(
-                title = { Text("Lista de Productos") },
+                title = { Text(text="Lista de Productos", color = Color.White) },
                 actions = {
                     IconButton(onClick = { showCartDialog = true }) {
-                        Icon(imageVector = Icons.Filled.ShoppingCart, contentDescription = "Carrito")
+                        Icon(imageVector = Icons.Filled.ShoppingCart, contentDescription = "Carrito", tint = Color.White)
                     }
-                }
+                },
+                colors = TopAppBarDefaults.topAppBarColors(
+                    containerColor = MaterialTheme.colorScheme.primary
+                )
+
             )
+
         }
     ) { innerPadding ->
         LazyVerticalGrid(
@@ -119,7 +125,9 @@ fun ProductCard(product: Product, cartViewModel: CartViewModel) {
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            Button(onClick = { cartViewModel.addToCart(product)  }) {
+            Button(onClick = { cartViewModel.addToCart(product)},
+                colors = ButtonDefaults.buttonColors(
+                    containerColor = MaterialTheme.colorScheme.secondary)) {
                 Text("Agregar al carrito")
             }
         }
