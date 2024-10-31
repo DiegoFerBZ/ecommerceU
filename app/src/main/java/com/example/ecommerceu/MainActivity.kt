@@ -14,10 +14,17 @@ import com.example.ecommerceu.screens.ProductListScreen
 import com.example.ecommerceu.screens.RegisterScreen
 import com.example.ecommerceu.ui.theme.EcommerceUTheme
 import com.example.ecommerceu.viewmodels.CartViewModel
+import org.koin.android.ext.koin.androidContext
+import org.koin.core.context.startKoin
+
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startKoin{
+            androidContext(this@MainActivity)
+            modules(appModule)
+        }
         enableEdgeToEdge()
         setContent {
             MyApp()
@@ -55,4 +62,5 @@ fun MyApp() {
     }
 
 }
+
 

@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    id("org.jetbrains.kotlin.kapt") // For KAPT
 }
 
 android {
@@ -67,4 +68,21 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    val room_version = "2.6.1"
+
+    implementation("androidx.room:room-runtime:$room_version")
+    annotationProcessor("androidx.room:room-compiler:$room_version")
+    // Room KTX for Kotlin extensions
+    implementation("androidx.room:room-ktx:$room_version")
+
+    // To use Kotlin annotation processing tool (kapt)
+    kapt("androidx.room:room-compiler:$room_version")
+
+    val koin_version = "3.3.0"
+    implementation("io.insert-koin:koin-android:$koin_version")
+    //implementation("io.insert-koin:koin-compose-viewmodel:$koin_version")
+    implementation("io.insert-koin:koin-androidx-compose:$koin_version")
+
+    implementation("io.insert-koin:koin-core")
 }
