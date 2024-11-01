@@ -14,4 +14,7 @@ interface CustomerDao {
 
     @Query("SELECT * FROM customer WHERE email = :email LIMIT 1")
     suspend fun getCustomerByEmail(email:String): Customer?
+
+    @Query("SELECT COUNT(*) FROM customer WHERE email = :email")
+    suspend fun emailExists(email: String): Int
 }

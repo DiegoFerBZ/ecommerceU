@@ -1,5 +1,8 @@
 package com.example.ecommerceu.viewmodels
 
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -10,11 +13,13 @@ import kotlinx.coroutines.launch
 
 class CustomerViewModel(private val repository: CustomerRepository) : ViewModel() {
 
+    var loginSuccess by mutableStateOf<Boolean?>(null)
+        private set
+
     // Function to register a new customer and return a boolean value
     suspend fun registerNewCustomer(customer: Customer): Boolean {
         return try {
             repository.registerCustomer(customer)
-            true // Registration successful
         } catch (e: Exception) {
             // Log the error if necessary
             false // Registration failed
@@ -36,4 +41,13 @@ class CustomerViewModel(private val repository: CustomerRepository) : ViewModel(
         }
         return customerData
     }
+
+    fun login(email: String, password: String) {
+        viewModelScope.launch {
+            val isUserValid = repository.validateCredentials(email, password)
+            loginSuccess = isUserValid
+        }
+    }
+
+
 }

@@ -16,11 +16,30 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ecommerceu.viewmodels.CustomerViewModel
+import org.koin.androidx.compose.getViewModel
 
 @Composable
 fun LoginScreen(onLoginSuccess: () -> Unit, onNavigateToRegister: () -> Unit) {
+
+    val viewModel: CustomerViewModel = getViewModel()
+
+
     var email by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
+
+    var errorMessage by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(viewModel.loginSuccess) {
+        viewModel.loginSuccess?.let { success ->
+            if (success) {
+                onLoginSuccess()
+            } else {
+                errorMessage = "Credenciales invalidas"
+            }
+        }
+    }
+
 
     Column(
         modifier = Modifier
@@ -56,13 +75,23 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onNavigateToRegister: () -> Unit) {
         Spacer(modifier = Modifier.height(16.dp))
 
         Button(
-            onClick = onLoginSuccess, modifier = Modifier.fillMaxWidth(),
+            onClick = {
+                viewModel.login(email, password)
+            }, modifier = Modifier.fillMaxWidth(),
 
         ) {
             Text("Iniciar Sesión")
         }
 
         Spacer(modifier = Modifier.height(16.dp))
+
+        errorMessage?.let {
+            Text(
+                text = it,
+                color = Color.Red,
+                modifier = Modifier.padding(top = 8.dp)
+            )
+        }
 
         Box(
             modifier = Modifier
