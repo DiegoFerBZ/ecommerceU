@@ -39,8 +39,7 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onNavigateToRegister: () -> Unit) {
             }
         }
     }
-
-
+    
     Column(
         modifier = Modifier
             .fillMaxSize()

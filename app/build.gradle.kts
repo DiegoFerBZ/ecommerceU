@@ -85,4 +85,16 @@ dependencies {
     implementation("io.insert-koin:koin-androidx-compose:$koin_version")
 
     implementation("io.insert-koin:koin-core")
+
+    // CameraX core library
+    implementation("androidx.camera:camera-core:1.2.0")
+// CameraX Camera2 extension
+    implementation("androidx.camera:camera-camera2:1.2.0")
+// CameraX Lifecycle library
+    implementation("androidx.camera:camera-lifecycle:1.2.0")
+// CameraX View (optional, for preview)
+    implementation("androidx.camera:camera-view:1.2.0")
+
+    implementation("io.coil-kt:coil-compose:2.4.0")
+
 }
