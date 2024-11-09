@@ -17,6 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.ecommerceu.viewmodels.CartViewModel
 import com.example.ecommerceu.R
+import com.example.ecommerceu.widgets.GoogleMapWithLocation
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -71,6 +72,8 @@ fun CartDialog(cartViewModel: CartViewModel, onDismiss: () -> Unit) {
         title = { Text("Carrito de Compras") },
         text = {
             Column {
+
+                // Cart content
                 if (cartViewModel.cartItems.isEmpty()) {
                     Text("El carrito está vacío.")
                 } else {
@@ -85,6 +88,9 @@ fun CartDialog(cartViewModel: CartViewModel, onDismiss: () -> Unit) {
                         }
                     }
                 }
+
+                GoogleMapWithLocation()
+
             }
         },
         confirmButton = {

@@ -1,6 +1,7 @@
 package com.example.ecommerceu.widgets
 
 import android.content.Context
+import android.util.Log
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
@@ -44,19 +45,21 @@ fun GoogleSignInButton(
     }
     val googleSignInClient = remember { GoogleSignIn.getClient(context, googleSignInOptions) }
 
-    // Set up the sign-in launcher
     val signInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult(),
         onResult = { result ->
             val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
             try {
                 val account = task.getResult(ApiException::class.java)
-                onSignInResult(account) // Pass the GoogleSignInAccount
+                onSignInResult(account) // Pass the GoogleSignInAccount if successful
             } catch (e: ApiException) {
-                onSignInResult(null) // Handle error
+                // Log the error and handle it
+                Log.e("RegisterScreen", "Google sign-in failed: ${e.localizedMessage}")
+                onSignInResult(null) // Handle error by passing null
             }
         }
     )
+
 
     Button(
         onClick = { signInLauncher.launch(googleSignInClient.signInIntent) },

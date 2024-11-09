@@ -43,6 +43,7 @@ fun MyApp() {
         NavHost(navController = navController, startDestination = "login") {
             composable("login") {
                 LoginScreen(
+                    context=context,
                     onLoginSuccess = {
                         navController.navigate("productList")
                     },
@@ -55,7 +56,7 @@ fun MyApp() {
                 ProductListScreen(cartViewModel) // Pasar el ViewModel
             }
             composable("register") {
-                RegisterScreen(context=context,onRegisterSuccess = {
+                RegisterScreen(onRegisterSuccess = {
                     navController.popBackStack()
                     navController.navigate("login")
                 })

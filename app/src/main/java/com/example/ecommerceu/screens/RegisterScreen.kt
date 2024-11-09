@@ -32,7 +32,7 @@ import org.koin.androidx.compose.getViewModel
 
 
 @Composable
-fun RegisterScreen(context: Context, onRegisterSuccess: () -> Unit) {
+fun RegisterScreen(onRegisterSuccess: () -> Unit) {
 
     val viewModel: CustomerViewModel = getViewModel()
 
@@ -152,17 +152,6 @@ fun RegisterScreen(context: Context, onRegisterSuccess: () -> Unit) {
                 isCameraScreenVisible = false
             })
         }
-
-        GoogleSignInButton(
-            context = context,
-            onSignInResult = { account ->
-                account?.idToken?.let { idToken ->
-                    firebaseAuthWithGoogle(idToken) { isSuccess ->
-                        onRegisterSuccess()
-                    }
-                }
-            }
-        )
 
 
     }

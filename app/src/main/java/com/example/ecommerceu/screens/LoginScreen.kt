@@ -1,5 +1,6 @@
 package com.example.ecommerceu.screens
 
+import android.content.Context
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Button
@@ -17,10 +18,12 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecommerceu.viewmodels.CustomerViewModel
+import com.example.ecommerceu.widgets.GoogleSignInButton
+import com.example.ecommerceu.widgets.firebaseAuthWithGoogle
 import org.koin.androidx.compose.getViewModel
 
 @Composable
-fun LoginScreen(onLoginSuccess: () -> Unit, onNavigateToRegister: () -> Unit) {
+fun LoginScreen(context:Context,onLoginSuccess: () -> Unit, onNavigateToRegister: () -> Unit) {
 
     val viewModel: CustomerViewModel = getViewModel()
 
@@ -109,6 +112,17 @@ fun LoginScreen(onLoginSuccess: () -> Unit, onNavigateToRegister: () -> Unit) {
                     .padding(top = 8.dp)
             )
         }
+
+        GoogleSignInButton(
+            context = context,
+            onSignInResult = { account ->
+                account?.idToken?.let { idToken ->
+                    firebaseAuthWithGoogle(idToken) { isSuccess ->
+                        onLoginSuccess()
+                    }
+                }
+            }
+        )
 
     }
 }
