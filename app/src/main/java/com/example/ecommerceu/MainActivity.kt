@@ -5,6 +5,7 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -37,6 +38,7 @@ fun MyApp() {
     EcommerceUTheme {
         val navController = rememberNavController()
         val cartViewModel: CartViewModel = viewModel()
+        val context = LocalContext.current
 
         NavHost(navController = navController, startDestination = "login") {
             composable("login") {
@@ -53,7 +55,7 @@ fun MyApp() {
                 ProductListScreen(cartViewModel) // Pasar el ViewModel
             }
             composable("register") {
-                RegisterScreen(onRegisterSuccess = {
+                RegisterScreen(context=context,onRegisterSuccess = {
                     navController.popBackStack()
                     navController.navigate("login")
                 })

@@ -1,7 +1,8 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
-    id("org.jetbrains.kotlin.kapt") // For KAPT
+    id("org.jetbrains.kotlin.kapt")
+    alias(libs.plugins.google.gms.google.services) // For KAPT
 }
 
 android {
@@ -61,6 +62,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.firebase.auth)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -96,5 +98,7 @@ dependencies {
     implementation("androidx.camera:camera-view:1.2.0")
 
     implementation("io.coil-kt:coil-compose:2.4.0")
+
+    implementation ("com.google.android.gms:play-services-auth:20.2.0")
 
 }
