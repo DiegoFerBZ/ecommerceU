@@ -147,10 +147,15 @@ fun RegisterScreen(onRegisterSuccess: () -> Unit) {
         }
 
         if (isCameraScreenVisible) {
-            CameraCaptureScreen(onImageCaptured = { uri ->
-                profileImageUri = uri
-                isCameraScreenVisible = false
-            })
+            CameraCaptureScreen(
+                onImageCaptured = { uri ->
+                    profileImageUri = uri
+                    isCameraScreenVisible = false // Ocultar el diálogo después de capturar la imagen
+                },
+                onDismiss = {
+                    isCameraScreenVisible = false // Cerrar el diálogo cuando el usuario lo descarta
+                }
+            )
         }
 
 

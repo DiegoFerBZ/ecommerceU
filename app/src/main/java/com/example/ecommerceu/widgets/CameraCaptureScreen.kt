@@ -21,6 +21,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.compose.ui.window.Dialog
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import coil.compose.rememberAsyncImagePainter
@@ -43,7 +45,7 @@ import java.text.SimpleDateFormat
 import java.util.Locale
 
 @Composable
-fun CameraCaptureScreen(onImageCaptured: (Uri) -> Unit) {
+fun CameraCaptureScreen(onImageCaptured: (Uri) -> Unit, onDismiss: () -> Unit) {
     val context = LocalContext.current
     var capturedImageUri by remember { mutableStateOf<Uri?>(null) }
     val imageCapture = remember { ImageCapture.Builder().build() }
@@ -62,36 +64,42 @@ fun CameraCaptureScreen(onImageCaptured: (Uri) -> Unit) {
         cameraPermissionLauncher.launch(Manifest.permission.CAMERA)
     }
 
-    Column(
-        modifier = Modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
-        if (capturedImageUri == null) {
-            CameraPreview(imageCapture)
-            Spacer(modifier = Modifier.height(16.dp))
-            Button(onClick = { capturePhoto(context, imageCapture) { uri ->
-                capturedImageUri = uri
-                onImageCaptured(uri) // Pass captured URI to parent composable
-            } }) {
-                Text(text = "Capture Photo")
-            }
-        } else {
-            // Show the captured photo
-            Image(
-                painter = rememberAsyncImagePainter(capturedImageUri),
-                contentDescription = "Captured Image",
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(400.dp)
-            )
-            Button(onClick = { capturedImageUri = null }) {
-                Text(text = "Retake")
+    Dialog(onDismissRequest = { onDismiss() }) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            if (capturedImageUri == null) {
+                CameraPreview(imageCapture)
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = {
+                    capturePhoto(context, imageCapture) { uri ->
+                        capturedImageUri = uri
+                        onImageCaptured(uri) // Pass captured URI to parent composable
+                    }
+                }) {
+                    Text(text = "Capturar")
+                }
+            } else {
+                // Show the captured photo
+                Image(
+                    painter = rememberAsyncImagePainter(capturedImageUri),
+                    contentDescription = "Tomar otra vez",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(400.dp)
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                Button(onClick = { capturedImageUri = null }) {
+                    Text(text = "Retake")
+                }
             }
         }
     }
 }
-
 
 @Composable
 fun CameraPreview(imageCapture: ImageCapture) {
@@ -109,7 +117,8 @@ fun CameraPreview(imageCapture: ImageCapture) {
                     it.setSurfaceProvider(previewView.surfaceProvider)
                 }
 
-                val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
+                val cameraSelector = CameraSelector.DEFAULT_FRONT_CAMERA
+
 
                 try {
                     cameraProvider.unbindAll()
