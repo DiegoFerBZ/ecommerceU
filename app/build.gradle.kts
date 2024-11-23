@@ -108,6 +108,7 @@ dependencies {
     implementation("com.google.android.gms:play-services-maps:19.0.0")
     implementation("com.google.android.gms:play-services-location:18.0.0")
     implementation ("com.google.maps.android:maps-compose:2.7.0")
+    implementation ("io.coil-kt:coil-compose:2.4.0") // Asegúrate de usar la versión más reciente
 }
 
 secrets {

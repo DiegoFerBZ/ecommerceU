@@ -15,6 +15,7 @@ import com.example.ecommerceu.screens.ProductListScreen
 import com.example.ecommerceu.screens.RegisterScreen
 import com.example.ecommerceu.ui.theme.EcommerceUTheme
 import com.example.ecommerceu.viewmodels.CartViewModel
+import com.example.ecommerceu.viewmodels.ProductViewModel
 import org.koin.android.ext.koin.androidContext
 import org.koin.core.context.startKoin
 

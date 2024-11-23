@@ -3,7 +3,7 @@ package com.example.ecommerceu.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.snapshots.SnapshotStateList
-import com.example.ecommerceu.screens.Product
+import com.example.ecommerceu.data.entities.Product
 
 class CartViewModel : ViewModel() {
     private val _cartItems: SnapshotStateList<CartItem> = mutableStateListOf()
