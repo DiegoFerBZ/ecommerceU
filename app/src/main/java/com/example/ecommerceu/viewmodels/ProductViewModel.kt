@@ -29,4 +29,18 @@ class ProductViewModel(private val productRepository: ProductRepository) : ViewM
             loadProducts()
         }
     }
+
+    fun updateProduct(product: Product){
+        viewModelScope.launch(Dispatchers.IO) {
+            productRepository.updateProduct(product)
+            loadProducts()
+        }
+    }
+
+    fun deleteProduct(product: Product){
+        viewModelScope.launch(Dispatchers.IO) {
+            productRepository.deleteProduct(product)
+            loadProducts()
+        }
+    }
 }

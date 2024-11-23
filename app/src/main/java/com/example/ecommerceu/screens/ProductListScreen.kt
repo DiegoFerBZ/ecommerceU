@@ -74,7 +74,14 @@ fun ProductListScreen(cartViewModel: CartViewModel = viewModel()) {
             horizontalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             items(products.size) { index ->
-                ProductCard(product = products[index], cartViewModel = cartViewModel)
+                ProductCard(product = products[index],
+                    cartViewModel = cartViewModel,
+                    onUpdate = { updatedProduct ->
+                    productViewModel.updateProduct(updatedProduct)
+                    },
+                    onDelete = {
+                        deletedProduct -> productViewModel.deleteProduct(deletedProduct)
+                    })
             }
         }
 

@@ -8,10 +8,13 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.Button
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -23,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.core.content.ContextCompat
 import com.example.ecommerceu.viewmodels.CartViewModel
@@ -79,7 +83,24 @@ fun CartDialog(cartViewModel: CartViewModel, onDismiss: () -> Unit) {
                         ) {
                             Text(cartItem.product.title)
                             Text("Cantidad: ${cartItem.quantity}")
+                            Text("Precio: ${cartItem.product.price * cartItem.quantity}")
                         }
+                    }
+
+                    Spacer(modifier = Modifier.height(16.dp))
+
+                    // Calculate and display the total amount
+                    val totalAmount = cartViewModel.cartItems.sumOf { it.product.price * it.quantity }
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End // Align total to the right
+                    ) {
+                        Text(
+                            text = "Total: $$totalAmount",
+                            style = MaterialTheme.typography.bodyLarge.copy(
+                                fontWeight = FontWeight.Bold
+                            )
+                        )
                     }
                 }
 

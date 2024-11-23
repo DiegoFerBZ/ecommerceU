@@ -14,7 +14,6 @@ class CartViewModel : ViewModel() {
         if (existingItem != null) {
             existingItem.quantity++
         } else {
-            // Si no está, añade el nuevo producto
             _cartItems.add(CartItem(product, 1))
         }
     }
